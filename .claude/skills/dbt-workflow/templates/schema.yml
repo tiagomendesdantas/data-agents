@@ -1,0 +1,28 @@
+version: 2
+
+models:
+  - name: fct_example
+    description: >
+      O que o modelo representa. Grain: 1 linha por <chave>.
+      Definição de cada métrica (ex.: net_revenue = soma de net_amount dos itens, após desconto, antes de impostos).
+    columns:
+      - name: example_key
+        description: Chave primária.
+        data_tests: [unique, not_null]
+      - name: customer_key
+        description: FK para dim_customers.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_customers')
+                field: customer_key
+      - name: status
+        description: Significado de cada valor.
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['A', 'B']
+      - name: net_revenue
+        description: Definição e unidade.
+        data_tests: [not_null]

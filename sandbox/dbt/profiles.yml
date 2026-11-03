@@ -1,0 +1,9 @@
+# Perfil do sandbox. Sem segredos: o warehouse é um arquivo DuckDB local.
+# DUCKDB_PATH é exportado pelo Makefile; o default funciona quando o dbt roda a partir de sandbox/dbt.
+sandbox:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: "{{ env_var('DUCKDB_PATH', '../warehouse.duckdb') }}"
+      threads: 4

@@ -1,0 +1,7 @@
+# Configuração única de lint Python para o repositório (sandbox e hooks em .claude/).
+line-length = 100
+target-version = "py312"
+extend-exclude = [".venv", "sandbox/dbt/target"]
+
+[lint]
+select = ["E", "F", "I", "B", "UP"]

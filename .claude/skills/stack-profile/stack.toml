@@ -1,0 +1,33 @@
+# Fonte da verdade sobre o stack de dados. Edite aqui ao trocar de ambiente.
+# Lido por: agentes (via skill stack-profile), run_sql.py, profile_table.py e pelo hook sql_guard.py.
+
+[env]
+# "sandbox" libera operações destrutivas no warehouse local. Qualquer outro nome é tratado como ambiente real.
+name = "sandbox"
+description = "Warehouse DuckDB local com dados TPC-H sintéticos (1992-1998)"
+
+[warehouse]
+# duckdb | bigquery | snowflake | postgres | databricks
+type = "duckdb"
+dialect = "duckdb"
+# Só para duckdb; relativo à raiz do repositório.
+path = "sandbox/warehouse.duckdb"
+# Exemplos para outros warehouses (descomente e preencha ao trocar):
+# project = ""      # bigquery
+# dataset = ""      # bigquery
+# account = ""      # snowflake
+# database = ""     # snowflake | postgres
+
+[dbt]
+project_dir = "sandbox/dbt"
+profiles_dir = "sandbox/dbt"
+target = "dev"
+
+[orchestrator]
+# make | airflow | dagster | prefect | none
+type = "make"
+
+[schemas]
+raw = "raw"
+staging = "staging"
+marts = "marts"

@@ -1,0 +1,23 @@
+version: 2
+
+sources:
+  - name: raw
+    description: Tabelas brutas TPC-H geradas pelo DuckDB (sandbox). Dados sintéticos de 1992 a 1998.
+    schema: raw
+    tables:
+      - name: customer
+        description: Um registro por cliente.
+        columns:
+          - name: c_custkey
+            data_tests: [unique, not_null]
+      - name: orders
+        description: Um registro por pedido.
+        columns:
+          - name: o_orderkey
+            data_tests: [unique, not_null]
+      - name: lineitem
+        description: "Itens de pedido. Grain: (l_orderkey, l_linenumber)."
+      - name: nation
+        description: Países.
+      - name: region
+        description: Regiões.

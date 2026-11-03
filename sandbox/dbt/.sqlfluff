@@ -1,0 +1,22 @@
+[sqlfluff]
+dialect = duckdb
+templater = jinja
+max_line_length = 120
+exclude_rules = ST06, AM04, LT05
+
+[sqlfluff:indentation]
+indent_unit = space
+tab_space_size = 4
+
+[sqlfluff:rules:capitalisation.keywords]
+capitalisation_policy = lower
+
+[sqlfluff:rules:capitalisation.identifiers]
+extended_capitalisation_policy = lower
+
+[sqlfluff:rules:capitalisation.functions]
+extended_capitalisation_policy = lower
+
+[sqlfluff:templater:jinja:macros]
+dbt_ref = {% macro ref(model) %}{{ model }}{% endmacro %}
+dbt_source = {% macro source(src, tbl) %}{{ src }}.{{ tbl }}{% endmacro %}

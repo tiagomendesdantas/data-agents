@@ -1,0 +1,112 @@
+version: 2
+
+models:
+  - name: stg_tpch__customers
+    description: "Clientes. Grain: 1 linha por customer_key. Só renomeia e converte tipos de raw.customer."
+    columns:
+      - name: customer_key
+        description: Chave primária do cliente.
+        data_tests: [unique, not_null]
+      - name: customer_name
+        description: Nome do cliente (sintético).
+      - name: address
+        description: Endereço (sintético).
+      - name: nation_key
+        description: FK para stg_tpch__nations.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_tpch__nations')
+                field: nation_key
+      - name: phone
+        description: Telefone (sintético).
+      - name: account_balance
+        description: Saldo da conta.
+      - name: market_segment
+        description: Segmento de mercado.
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['AUTOMOBILE', 'BUILDING', 'FURNITURE', 'HOUSEHOLD', 'MACHINERY']
+      - name: customer_comment
+        description: Comentário livre da source (texto sintético).
+
+  - name: stg_tpch__nations
+    description: "Países. Grain: 1 linha por nation_key."
+    columns:
+      - name: nation_key
+        data_tests: [unique, not_null]
+      - name: nation_name
+        data_tests: [not_null]
+      - name: region_key
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_tpch__regions')
+                field: region_key
+
+  - name: stg_tpch__regions
+    description: "Regiões. Grain: 1 linha por region_key."
+    columns:
+      - name: region_key
+        data_tests: [unique, not_null]
+      - name: region_name
+        data_tests: [not_null]
+
+  - name: stg_tpch__orders
+    description: "Pedidos. Grain: 1 linha por order_key."
+    columns:
+      - name: order_key
+        description: Chave primária do pedido.
+        data_tests: [unique, not_null]
+      - name: customer_key
+        description: FK para stg_tpch__customers.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_tpch__customers')
+                field: customer_key
+      - name: order_status
+        description: "O = aberto, F = finalizado, P = parcial."
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['O', 'F', 'P']
+      - name: total_price
+        description: Valor total do pedido conforme a source (inclui impostos).
+      - name: order_date
+        data_tests: [not_null]
+      - name: order_priority
+      - name: clerk
+      - name: ship_priority
+
+  - name: stg_tpch__line_items
+    description: >
+      Itens de pedido. Grain: 1 linha por (order_key, line_number).
+      net_amount = extended_price * (1 - discount). is_late = receipt_date > commit_date.
+    columns:
+      - name: order_key
+        data_tests: [not_null]
+      - name: line_number
+        data_tests: [not_null]
+      - name: part_key
+      - name: supplier_key
+      - name: quantity
+      - name: extended_price
+      - name: discount
+      - name: tax
+      - name: net_amount
+        description: Valor líquido do item após desconto, antes de impostos.
+        data_tests: [not_null]
+      - name: return_flag
+      - name: line_status
+      - name: ship_date
+      - name: commit_date
+      - name: receipt_date
+      - name: is_late
+        description: Verdadeiro quando o recebimento ocorreu após a data comprometida.
+      - name: ship_instructions
+      - name: ship_mode

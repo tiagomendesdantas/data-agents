@@ -1,0 +1,31 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# dbt
+**/target/
+**/dbt_packages/
+**/logs/
+
+# DuckDB (sandbox local, regenerável com `make seed`)
+sandbox/warehouse.duckdb
+sandbox/warehouse.duckdb.wal
+
+# Claude Code (local à máquina)
+.claude/settings.local.json
+.claude/agent-memory-local/
+
+# Segredos
+.env
+.env.*
+*.pem
+
+# SO
+.DS_Store
+
+# dbt: id anônimo de telemetria
+**/.user.yml
